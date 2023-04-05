@@ -4,7 +4,7 @@ import { users } from 'src/moks';
 import { User } from './models/user.model';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDTO } from './dto';
-import { appError } from 'src/common/erros';
+import { appError } from 'src/common/constants/erros';
 
 @Injectable()
 export class UserService {
@@ -20,10 +20,6 @@ export class UserService {
     }
 
   async createUser(dto: CreateUserDTO): Promise<CreateUserDTO>{
-
-    const existUser = await this.findUserByEmail(dto.email);
-
-    if(existUser) throw new BadRequestException(appError.USER_EXISTS);
 
     dto.password = await this.hashPassword(dto.password);
     const newUser ={

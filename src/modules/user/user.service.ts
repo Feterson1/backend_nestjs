@@ -3,11 +3,14 @@ import { InjectModel } from '@nestjs/sequelize';
 import { users } from 'src/moks';
 import { User } from './models/user.model';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDTO } from './dto';
+import { CreateUserDTO, updateUserDTO } from './dto';
 import { appError } from 'src/common/constants/erros';
+
 
 @Injectable()
 export class UserService {
+  
+
     constructor(@InjectModel(User) private readonly userRepository:typeof User){}
 
     async hashPassword(password){
@@ -41,6 +44,20 @@ export class UserService {
             where:{email: email},
             attributes:{exclude: ['password']}
 });
+  }
+
+  async updateUser(email: string,dto:updateUserDTO): Promise<updateUserDTO> {
+
+    await this.userRepository.update(dto,{where: {email}});
+
+    return dto
+     
+
+  }
+
+  async deleteUser(email:string){
+    await this.userRepository.destroy({where:{email}})
+    return true
 
   }
 }

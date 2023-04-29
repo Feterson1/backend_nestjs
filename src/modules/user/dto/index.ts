@@ -20,3 +20,23 @@ export class CreateUserDTO {
     @IsString()
     password: string
 }
+
+
+
+
+export class updateUserDTO{
+
+    @ApiProperty()
+    @IsString()
+    firstName: string
+
+    @ApiProperty()
+    @IsString()
+    userName: string
+
+    @ApiProperty()
+    @IsString()
+    email: string
+
+    
+}

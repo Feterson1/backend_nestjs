@@ -55,7 +55,7 @@ export class UserService {
 
   }
 
-  async deleteUser(email:string){
+  async deleteUser(email:string):Promise<boolean> {
     await this.userRepository.destroy({where:{email}})
     return true
 

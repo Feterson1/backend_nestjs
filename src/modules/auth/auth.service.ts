@@ -29,15 +29,12 @@ export class AuthService {
 
         if(!validatePassword) throw new BadRequestException(appError.WRONG_DATA);
 
-        const userData = {
-            name : existUser.firstName,
-            email: existUser.email,
-        }
-
-        const token = await this.tokenService.generateJwtToken(userData);
-        
         // Находим пользователя и убираем у него password
         const user = await this.userService.publicUser(dto.email);
+
+        const token = await this.tokenService.generateJwtToken(user);
+        
+        
         return {...user, token};
     }
 }

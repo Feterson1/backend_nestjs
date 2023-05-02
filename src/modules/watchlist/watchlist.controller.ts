@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Patch, Post, Query, Req, UseGuards } fro
 import { WatchlistService } from './watchlist.service';
 import { WatchListDTO } from './dto';
 import { JwtAuthGuard } from 'src/guards/jwt-guard';
+import { request } from 'http';
 
 @Controller('watchlist')
 export class WatchlistController {
@@ -14,18 +15,12 @@ export class WatchlistController {
         return this.watchlistService.createAsset(user,assetDTO);
     }
 
-    @Get('get-all')
-    getAllAssets(){
-        return 
-    }
+    
 
-    @Patch('update')
-    updateAsset(){
-        return
-    }
-
+    @UseGuards(JwtAuthGuard)
     @Delete()
-    deleteAsset(@Query('id') id:string){
-        return
+    deleteAsset(@Query('id') assetId:string, @Req() request):Promise<boolean>{
+        const {id} = request.user;
+        return this.watchlistService.deleteAsset(id,assetId);
     }
 }

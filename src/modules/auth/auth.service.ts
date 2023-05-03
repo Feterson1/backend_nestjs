@@ -15,13 +15,25 @@ export class AuthService {
     
 
     async registerUser(dto:CreateUserDTO): Promise<CreateUserDTO> {
+       try{
+
         const existUser = await this.userService.findUserByEmail(dto.email);
+
         if(existUser) throw new BadRequestException(appError.USER_EXIST);
 
         return this.userService.createUser(dto);
+
+       }catch(e){
+
+        throw new Error(e)
+
+       }
     }
 
     async loginUser(dto:UserLoginDTO): Promise<AuthUserResponse>{
+
+        try{
+
         const existUser = await this.userService.findUserByEmail(dto.email);
 
         if(!existUser) throw new BadRequestException(appError.USER_NOT_EXIST);
@@ -36,5 +48,8 @@ export class AuthService {
         
         
         return {user, token};
+        }catch(e){
+            throw new Error(e)
+        }
     }
 }

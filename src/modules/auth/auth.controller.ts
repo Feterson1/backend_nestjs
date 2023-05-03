@@ -32,9 +32,5 @@ export class AuthController {
         return this.authService.loginUser(dto);
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Post('test')
-    test(){
-        return true;
-    }
 }
+

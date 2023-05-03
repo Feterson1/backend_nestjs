@@ -21,7 +21,7 @@ export class AuthService {
         return this.userService.createUser(dto);
     }
 
-    async loginUser(dto:UserLoginDTO): Promise<AuthUserResponse>{
+    async loginUser(dto:UserLoginDTO): Promise<any>{
         const existUser = await this.userService.findUserByEmail(dto.email);
 
         if(!existUser) throw new BadRequestException(appError.USER_NOT_EXIST);
@@ -29,15 +29,12 @@ export class AuthService {
 
         if(!validatePassword) throw new BadRequestException(appError.WRONG_DATA);
 
-        const userData = {
-            name : existUser.firstName,
-            email: existUser.email,
-        }
-
-        const token = await this.tokenService.generateJwtToken(userData);
-        
         // Находим пользователя и убираем у него password
         const user = await this.userService.publicUser(dto.email);
-        return {...user, token};
+
+        const token = await this.tokenService.generateJwtToken(user);
+        
+        
+        return {user, token};
     }
 }

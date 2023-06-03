@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Watchlist } from './models/watchlist.model';
 import { CreateAssetResponse } from './response';
+import { promises } from 'dns';
 
 @Injectable()
 export class WatchlistService {
@@ -23,6 +24,14 @@ export class WatchlistService {
         }catch(e){
 
             throw new Error(e)
+        }
+
+    }
+    getUserAssets(userId: number): Promise<Watchlist[]>{
+        try{
+            return this.watchlistRepository.findAll({where: {user: userId}});
+        }catch(e){
+            throw new Error(e);
         }
 
     }

@@ -14,18 +14,23 @@ export class AuthService {
         private readonly tokenService: TokenService){}
     
 
-    async registerUser(dto:CreateUserDTO): Promise<CreateUserDTO> {
+    async registerUser(dto:CreateUserDTO): Promise<AuthUserResponse> {
        try{
 
         const existUser = await this.userService.findUserByEmail(dto.email);
 
         if(existUser) throw new BadRequestException(appError.USER_EXIST);
 
-        return this.userService.createUser(dto);
+       await this.userService.createUser(dto);
+        // Находим пользователя и убираем у него password
+
+        return this.userService.publicUser(dto.email);
+
+       
 
        }catch(e){
 
-        throw new Error(e)
+        throw e
 
        }
     }
@@ -42,12 +47,12 @@ export class AuthService {
         if(!validatePassword) throw new BadRequestException(appError.WRONG_DATA);
 
         // Находим пользователя и убираем у него password
-        const user = await this.userService.publicUser(dto.email);
+        return this.userService.publicUser(dto.email);
 
-        const token = await this.tokenService.generateJwtToken(user);
+       
         
-        
-        return {user, token};
+       
+
         }catch(e){
             throw new Error(e)
         }

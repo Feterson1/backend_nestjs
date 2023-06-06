@@ -34,7 +34,7 @@ export class AuthController {
     })
    
     @Post('login')
-    login(@Body() dto:UserLoginDTO):Promise<AuthUserResponse>{
+    login(@Body() dto:UserLoginDTO):Promise<AuthUserResponse | BadRequestException>{
         return this.authService.loginUser(dto);
     }
 

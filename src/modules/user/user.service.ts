@@ -83,10 +83,10 @@ export class UserService {
     }
   }
 
-  async updateUser(email: string,dto:updateUserDTO): Promise<updateUserDTO> {
+  async updateUser(userId: number,dto:updateUserDTO): Promise<updateUserDTO> {
 
   try{
-    await this.userRepository.update(dto,{where: {email}});
+    await this.userRepository.update(dto,{where: {id: userId}});
 
     return dto
      

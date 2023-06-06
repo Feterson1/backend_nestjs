@@ -18,7 +18,7 @@ export class UserController {
         const user = request.user;
     
         
-        return this.userService.updateUser(user.email,updateDTO);
+        return this.userService.updateUser(user.id,updateDTO);
 
     }
 

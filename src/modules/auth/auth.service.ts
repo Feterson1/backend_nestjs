@@ -11,7 +11,8 @@ import { TokenService } from 'src/token/token.service';
 export class AuthService {
     constructor(
         private readonly userService:UserService,
-        private readonly tokenService: TokenService){}
+        private readonly tokenService: TokenService,
+        ){}
     
 
     async registerUser(dto:CreateUserDTO): Promise<AuthUserResponse> {

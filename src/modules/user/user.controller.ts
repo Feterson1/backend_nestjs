@@ -1,6 +1,6 @@
-import {Body, Controller, Delete, Patch, Req, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Patch, Req, UseGuards} from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDTO, updateUserDTO } from './dto';
+import { CreateUserDTO, updatePasswordDTO, updateUserDTO } from './dto';
 import { JwtAuthGuard } from 'src/guards/jwt-guard';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -27,6 +27,19 @@ export class UserController {
     deleteUser(@Req() request):Promise<boolean> {
         const user = request.user;
         return this.userService.deleteUser(user.email)
+
+    }
+
+    @ApiTags('API')
+    @ApiResponse({status:200})
+    @UseGuards(JwtAuthGuard)
+    @Get('change-password')
+    updatePassword(@Body() updatePasswordDTO: updatePasswordDTO, @Req() request): Promise<updatePasswordDTO> {
+
+        const user = request.user;
+    
+        
+        return this.userService.updatePassword(user.id,updatePasswordDTO);
 
     }
 

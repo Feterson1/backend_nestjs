@@ -36,7 +36,7 @@ export class UserController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Delete()
+    @Delete('delete-user')
     deleteUser(@Req() request):Promise<boolean> {
         const user = request.user;
         return this.userService.deleteUser(user.id)
